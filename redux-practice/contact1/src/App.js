@@ -3,19 +3,103 @@ import Header from './components/Header';
 import Container from './components/Container';
 import ViewSelector from './components/ViewSelector';
 import FloatingButton from './components/FloatingButton';
+import oc from 'open-color';
+import ContactModal from './components/ContactModal';
+import Dimmed from './components/Dimmed';
+
+function generateRandomColor() {
+    const colors = [
+        'gray',
+        'red',
+        'pink',
+        'grape',
+        'violet',
+        'indigo',
+        'blue',
+        'cyan',
+        'teal',
+        'green',
+        'lime',
+        'yellow',
+        'orange'
+    ];
+
+    // 0 부터 12 까지 랜덤 숫자
+    const random = Math.floor(Math.random()*13);
+
+    return oc[colors[random]][6];
+}
 
 class App extends Component {
     /* === #1 --- */
     state = {
-        view: 'favorite'
+        view: 'favorite',
+        modal: {
+            visible: false,
+            mode: null // create 혹은 modify
+        }
     }
 
     handleSelectView = (view) => this.setState({view})
 
+    // 모달 관련 메소드들
+    modalHandler = {
+        show: (mode, payload) => {
+            this.setState({
+                modal: {
+                    mode,
+                    visible: true,
+                    ...payload // payload 안의 값을 풀어서 여기에 넣음
+                }
+            })
+        },
+        hide: () => {
+            this.setState({
+                modal: {
+                    ...this.state.modal, // 기존 값들을 복사해서 안에 넣음
+                    visible: false
+                }
+            })
+        },
+        // 추후 구현될 메소드들
+        change: null,
+        action: {
+            create: null,
+            modify: null,
+            remove: null
+        }
+    }
+
+    //FloatingButton 클릭
+    handleFloatingButtonClick = () => {
+        // 현재 view가 list가 아니면 list로 설정
+        const { view } = this.state;
+        if(view !== 'list')
+            this.setState({view: 'list'});
+
+        // Contact 추가 모달 띄우기
+        this.modalHandler.show(
+            'create',
+            {
+                name: '',
+                phone: '',
+                color: generateRandomColor()
+            }
+        );
+    }
+
     render() {
         // 레퍼런스 준비
-        const { handleSelectView } = this;
-        const { view } = this.state;
+        const {
+            handleSelectView,
+            handleFloatingButtonClick,
+            modalHandler
+        } = this;
+
+        const {
+            view,
+            modal
+        } = this.state;
 
         return (
             <div>
@@ -26,7 +110,9 @@ class App extends Component {
                 <Container visible={view==='favorite'}>즐겨찾기</Container>
                 <Container visible={view==='list'}>리스트</Container>
 
-                <FloatingButton />
+                <ContactModal {...modal} onHide={modalHandler.hide} />
+                <Dimmed visible={modal.visible} />
+                <FloatingButton onClick={handleFloatingButtonClick} />
             </div>
         );
     }
