@@ -9,6 +9,8 @@ import Dimmed from './components/Dimmed';
 import shortid from 'shortid';
 import ContactList from './components/ContactList';
 import Input from './components/Input';
+import FavoriteList from './components/FavoriteList';
+
 
 function generateRandomColor() {
     const colors = [
@@ -35,7 +37,7 @@ function generateRandomColor() {
 
 class App extends Component {
     state = {
-        view: 'list',
+        view: 'favorite',
         modal: {
             visible: false,
             mode: null // create 혹은 modify
@@ -262,7 +264,9 @@ class App extends Component {
                 <ViewSelector onSelect={handleSelectView} selected={view}/>
 
                 {/* view 값에 따라 다른 컨테이너를 보여준다. */}
-                <Container visible={view==='favorite'}>즐겨찾기</Container>
+                <Container visible={view==='favorite'}>
+                    <FavoriteList contacts={contacts}/>
+                </Container>
                 <Container visible={view==='list'}>
                     <Input
                         onChange={handleSearchChange}
