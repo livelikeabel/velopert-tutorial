@@ -5,6 +5,7 @@ import Modal from './Modal';
 import PropTypes from 'prop-types';
 import Thumbnail from './Thumbnail';
 import Input from './Input';
+import RemoveIcon from 'react-icons/lib/md/remove-circle';
 
 const ThumbnailWrapper = styled.div`
     /* 레이아웃 */
@@ -63,6 +64,35 @@ Button.propTypes = {
     color: PropTypes.string
 };
 
+const RemoveButton = styled.div`
+    /* 레이아웃 */
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+
+    /* 색상 */
+    color: ${oc.gray[6]};
+
+    /* 기타 */
+    cursor: pointer;
+    font-size: 2rem;
+
+    /* 마우스 커서 위에 있을 때 */
+    &:hover {
+        color: ${oc.red[6]};
+    }
+    /* 마우스 커서 클릭 시 */
+    &:active {
+        color: ${oc.red[7]}
+    }
+
+    ${props => !props.visible && 'display: none;'}
+`
+
+RemoveButton.propTypes = {
+    visible: PropTypes.bool
+};
+
 class ContactModal extends Component {
 
     static propTypes = {
@@ -95,12 +125,18 @@ class ContactModal extends Component {
             phone,
             color,
             onHide,
-            onAction
+            onAction,
+            onRemove
         } = this.props;
 
         return (
             <Modal visible={visible} onHide={onHide}>
                 <ThumbnailWrapper>
+                    <RemoveButton
+                        visible={mode==='modify'}
+                        onClick={onRemove}>
+                            <RemoveIcon/>
+                    </RemoveButton>
                     <Thumbnail size="8rem" color={color} />
                 </ThumbnailWrapper>
                 <Form>

@@ -132,8 +132,49 @@ class App extends Component {
                 // 모달 달기
                 this.modalHandler.hide();
             },
-            modify: null,
-            remove: null
+            modify: () => {
+                // 레퍼런스 준비
+                const {
+                    modal: { name, phone, index },
+                    contacts
+                } = this.state;
+
+                const item = contacts[index];
+
+                // 상태변경
+                this.setState({
+                    contacts: [
+                        ...contacts.slice(0, index), // 0 ~ index 전까지의 객체를 넣음
+                        {
+                            ...item, // 기존의 아이템 값에
+                            name, // name 과
+                            phone // phone 을 덮어 씌움
+                        },
+                        ...contacts.slice(index + 1, contacts.length) // 그 뒤에 객체들을 넣음
+                    ]
+                });
+
+                // 모달 달기
+                this.modalHandler.hide();
+            },
+            remove: () => {
+                // 레퍼런스 준비
+                const {
+                    modal: { index },
+                    contacts
+                } = this.state;
+
+                // 상태변경
+                this.setState({
+                    contacts: [
+                        ...contacts.slice(0, index), // 0~index 전까지의 객체를 넣음
+                        ...contacts.slice(index + 1, contacts.length) // 그 뒤에 객체들을 넣음
+                    ]
+                });
+
+                //모달 달기
+                this.modalHandler.hide();
+            }
         }
     }
 
@@ -155,12 +196,31 @@ class App extends Component {
         );
     }
 
+    itemHandler = {
+        onToggleFavorite: null,
+        openModify: (id) => {
+            const { contacts } = this.state;
+            // id로 index조회
+            const index = contacts.findIndex(contact => contact.id === id);
+            const item = this.state.contacts[index];
+
+            this.modalHandler.show(
+                'modify',
+                {
+                    ...item,
+                    index
+                }
+            );
+        }
+    }
+
     render() {
         // 레퍼런스 준비
         const {
             handleSelectView,
             handleFloatingButtonClick,
-            modalHandler
+            modalHandler,
+            itemHandler
         } = this;
 
         const {
@@ -177,7 +237,10 @@ class App extends Component {
                 {/* view 값에 따라 다른 컨테이너를 보여준다. */}
                 <Container visible={view==='favorite'}>즐겨찾기</Container>
                 <Container visible={view==='list'}>
-                    <ContactList contacts={contacts} />
+                    <ContactList
+                        contacts={contacts}
+                        onOpenModify={itemHandler.openModify}
+                    />
                 </Container>
 
                 <ContactModal
@@ -185,6 +248,7 @@ class App extends Component {
                     onHide={modalHandler.hide}
                     onChange={modalHandler.change}
                     onAction={modalHandler.action[modal.mode]}
+                    onRemove={modalHandler.action.remove}
                 />
                 <Dimmed visible={modal.visible} />
                 <FloatingButton onClick={handleFloatingButtonClick} />
