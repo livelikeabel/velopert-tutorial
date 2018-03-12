@@ -17,7 +17,8 @@ class ContactList extends Component {
     }
 
     render() {
-        const { contacts, onOpenModify, search } = this.props;
+        const { contacts, onOpenModify, search, onToggleFavorite } = this.props;
+
         const contactList = contacts
                             .filter( //키워드로 필터링
                                 c => c.name.indexOf(search) !== -1
@@ -33,6 +34,7 @@ class ContactList extends Component {
                                         key={contact.id}
                                         contact={contact}
                                         onOpenModify={onOpenModify}
+                                        onToggleFavorite={onToggleFavorite}
                                     />
                                 )
                             );

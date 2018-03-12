@@ -105,12 +105,27 @@ const CircleButton = styled.div`
 
     /* 즐겨찾기 - 노란색 */
     ${ props => props.favorite && css`
+       /* active props를 전달받으면 노란색으로 */
+       ${props => props.active && css`
+           border: 1px solid ${oc.yellow[6]};
+           color: ${oc.yellow[6]};
+
+           &:hover {
+               color: ${oc.yellow[5]};
+               border: 1px solid ${oc.yellow[5]};
+           }
+       `}
+
         &:active {
             border: 1px solid ${oc.yellow[6]};
             color: ${oc.yellow[6]};
         }
     `}
 `;
+
+CircleButton.propTypes = {
+    active: PropTypes.bool
+};
 
 class ContactItem extends Component {
 
@@ -130,7 +145,8 @@ class ContactItem extends Component {
         // 레퍼런스 준비
         const {
             contact: { name, phone, favorite, id, color },
-            onOpenModify
+            onOpenModify,
+            onToggleFavorite
         } = this.props;
 
         return (
@@ -141,7 +157,10 @@ class ContactItem extends Component {
                     <Phone>{phone}</Phone>
                 </Info>
                 <div className="actions">
-                    <CircleButton favorite>
+                    <CircleButton
+                            favorite
+                            active={favorite}
+                            onClick={() => onToggleFavorite(id)}>
                         <StarIcon/>
                     </CircleButton>
                     <CircleButton onClick={() => onOpenModify(id)}>
