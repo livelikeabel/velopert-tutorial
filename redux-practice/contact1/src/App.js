@@ -6,6 +6,7 @@ import FloatingButton from './components/FloatingButton';
 import oc from 'open-color';
 import ContactModal from './components/ContactModal';
 import Dimmed from './components/Dimmed';
+import shortid from 'shortid';
 
 function generateRandomColor() {
     const colors = [
@@ -37,7 +38,8 @@ class App extends Component {
         modal: {
             visible: false,
             mode: null // create 혹은 modify
-        }
+        },
+        contacts: []
     }
 
     handleSelectView = (view) => this.setState({view})
@@ -61,10 +63,39 @@ class App extends Component {
                 }
             })
         },
-        // 추후 구현될 메소드들
-        change: null,
+        change: ({name, value}) => {
+            this.setState({
+                modal: {
+                    ...this.state.modal,
+                    [name]: value // 인자로 전달받은 name의 값을 value로 설정
+                }
+            })
+        },
         action: {
-            create: null,
+            create: () => {
+                // 고유 ID 생성
+                const id = shortid.generate();
+
+                // 레퍼런스 생성
+                const { contacts, modal: { name, phone, color } } = this.state;
+
+                // 데이터 생성
+                const contact = {
+                    id,
+                    name,
+                    phone,
+                    color,
+                    favorite: false // 즐겨찾기의 기본값은 false
+                };
+
+                this.setState({
+                    // 기존 배열에있던것들을 집어넣고, contact 를 뒤에 추가한 새 배열로 설정
+                    contacts: [...contacts, contact]
+                });
+
+                // 모달 달기
+                this.modalHandler.hide();
+            },
             modify: null,
             remove: null
         }
@@ -110,7 +141,12 @@ class App extends Component {
                 <Container visible={view==='favorite'}>즐겨찾기</Container>
                 <Container visible={view==='list'}>리스트</Container>
 
-                <ContactModal {...modal} onHide={modalHandler.hide} />
+                <ContactModal
+                    {...modal}
+                    onHide={modalHandler.hide}
+                    onChange={modalHandler.change}
+                    onAction={modalHandler.action[modal.mode]}
+                />
                 <Dimmed visible={modal.visible} />
                 <FloatingButton onClick={handleFloatingButtonClick} />
             </div>
