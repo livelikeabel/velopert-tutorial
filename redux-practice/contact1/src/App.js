@@ -8,6 +8,7 @@ import ContactModal from './components/ContactModal';
 import Dimmed from './components/Dimmed';
 import shortid from 'shortid';
 import ContactList from './components/ContactList';
+import Input from './components/Input';
 
 function generateRandomColor() {
     const colors = [
@@ -75,7 +76,8 @@ class App extends Component {
                 "color": "#e64980",
                 "favorite": false
             }
-        ]
+        ],
+        search: ''
     }
 
     handleSelectView = (view) => this.setState({view})
@@ -214,19 +216,28 @@ class App extends Component {
         }
     }
 
+    //검색창 수정
+    handleSearchChange = (e) => {
+        this.setState({
+            search: e.target.value
+        });
+    }
+
     render() {
         // 레퍼런스 준비
         const {
             handleSelectView,
             handleFloatingButtonClick,
             modalHandler,
-            itemHandler
+            itemHandler,
+            handleSearchChange
         } = this;
 
         const {
             view,
             modal,
-            contacts
+            contacts,
+            search
         } = this.state;
 
         return (
@@ -237,9 +248,15 @@ class App extends Component {
                 {/* view 값에 따라 다른 컨테이너를 보여준다. */}
                 <Container visible={view==='favorite'}>즐겨찾기</Container>
                 <Container visible={view==='list'}>
+                    <Input
+                        onChange={handleSearchChange}
+                        value={search}
+                        placeholder="검색"
+                    />
                     <ContactList
                         contacts={contacts}
                         onOpenModify={itemHandler.openModify}
+                        search={search}
                     />
                 </Container>
 
