@@ -4,6 +4,7 @@ import Container from './components/Container';
 import { connect } from 'react-redux';
 
 import ViewSelectorContainer from './containers/ViewSelectorContainer';
+import InputContainer from './containers/InputContainer';
 
 class App extends Component {
     render() {
@@ -20,7 +21,7 @@ class App extends Component {
                     {/* FavoriteListContainer */}
                 </Container>
                 <Container visible={view==='list'}>
-                    {/* InputContainer */}
+                    <InputContainer />
                     {/* ContactListContainer */}
                 </Container>
 
