@@ -8,6 +8,7 @@ import InputContainer from './containers/InputContainer';
 import FavoriteListContainer from './containers/FavoriteListContainer';
 import FloatingButtonContainer from './containers/FloatingButtonContainer';
 import ContactModalContainer from './containers/ContactModalContainer';
+import ContactListContainer from './containers/ContactListContainer';
 
 class App extends Component {
     render() {
@@ -25,7 +26,7 @@ class App extends Component {
                 </Container>
                 <Container visible={view==='list'}>
                     <InputContainer />
-                    {/* ContactListContainer */}
+                    <ContactListContainer />
                 </Container>
 
                 <ContactModalContainer />
