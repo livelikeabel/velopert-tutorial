@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import ViewSelectorContainer from './containers/ViewSelectorContainer';
 import InputContainer from './containers/InputContainer';
 import FavoriteListContainer from './containers/FavoriteListContainer';
+import FloatingButtonContainer from './containers/FloatingButtonContainer';
 
 class App extends Component {
     render() {
@@ -27,7 +28,7 @@ class App extends Component {
                 </Container>
 
                 {/* ContactModalContainer */}
-                {/* FloatingButtonContainer */}
+                <FloatingButtonContainer />
             </div>
         );
     }
