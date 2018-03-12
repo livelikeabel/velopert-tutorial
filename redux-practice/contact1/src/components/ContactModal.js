@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
 import Modal from './Modal';
-import PropTypes from 'prop-types';
 import Thumbnail from './Thumbnail';
 import Input from './Input';
+
 import RemoveIcon from 'react-icons/lib/md/remove-circle';
+
+import PropTypes from 'prop-types';
+
+
 
 const ThumbnailWrapper = styled.div`
     /* 레이아웃 */
@@ -60,7 +64,7 @@ const Button = styled.div`
     }
 `;
 
-Button.propTypes = {
+Button.propType = {
     color: PropTypes.string
 };
 
@@ -97,15 +101,13 @@ class ContactModal extends Component {
 
     static propTypes = {
         visible: PropTypes.bool,
-        // 모달의 모드
         mode: PropTypes.oneOf(['create', 'modify']),
-        // 모달에 들어갈 데이터 값
         name: PropTypes.string,
         phone: PropTypes.string,
         color: PropTypes.string,
         onHide: PropTypes.func,
-        onAction: PropTypes.func, //추가 혹은 수정
-        onRemove: PropTypes.func // 나중에 구현할 삭제
+        onAction: PropTypes.func,
+        onRemove: PropTypes.func
     }
 
     handleChange = (e) => {
@@ -129,15 +131,12 @@ class ContactModal extends Component {
             onRemove
         } = this.props;
 
+
         return (
             <Modal visible={visible} onHide={onHide}>
                 <ThumbnailWrapper>
-                    <RemoveButton
-                        visible={mode==='modify'}
-                        onClick={onRemove}>
-                            <RemoveIcon/>
-                    </RemoveButton>
-                    <Thumbnail size="8rem" color={color} />
+                    <RemoveButton visible={mode==='modify'} onClick={onRemove}><RemoveIcon/></RemoveButton>
+                    <Thumbnail size="8rem" color={color}/>
                 </ThumbnailWrapper>
                 <Form>
                     <Input
@@ -155,8 +154,8 @@ class ContactModal extends Component {
                 </Form>
                 <ButtonsWrapper>
                     <Button color="teal"
-                            onClick={onAction}>
-                            { mode === 'create' ? '추가' : '수정'}
+                        onClick={onAction}>
+                        { mode === 'create' ? '추가' : '수정'}
                     </Button>
                     <Button
                         onClick={onHide}

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import oc from 'open-color';
 import FavoriteItem from './FavoriteItem';
 import PropTypes from 'prop-types';
 
@@ -13,7 +12,7 @@ const Wrapper = styled.div`
 
 const FavoriteList = ({contacts}) => {
     const favoriteList = contacts
-                        .filter( //즐겨찾기 필터링
+                        .filter( // 즐겨찾기 필터링
                             contact => contact.favorite
                         ).map(
                             contact => (
@@ -23,12 +22,13 @@ const FavoriteList = ({contacts}) => {
                                 />
                             )
                         );
+
     return (
         <Wrapper>
             {favoriteList}
         </Wrapper>
-    )
-}
+    );
+};
 
 FavoriteList.propTypes = {
     contacts: PropTypes.arrayOf(PropTypes.object)

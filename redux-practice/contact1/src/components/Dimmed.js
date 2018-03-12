@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import oc from 'open-color';
 import PropTypes from 'prop-types';
+
 
 const Black = styled.div`
     /* 레이아웃 - 화면 꽉 채움 */
@@ -18,9 +18,10 @@ const Black = styled.div`
     background: rgba(0,0,0,0.3);
 `;
 
+
 const Dimmed = ({visible}) => (
     <div>
-        {visible && <Black />}
+        {visible && <Black/>}
     </div>
 );
 

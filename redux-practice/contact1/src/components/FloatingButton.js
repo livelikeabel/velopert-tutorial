@@ -32,22 +32,22 @@ const Wrapper = styled.div`
 
     /* 마우스가 위에 있을 때 */
     &:hover {
-       /* 위로 조금 움직이고 색바꿈 */
-       transform: translateY(-0.5rem);
-       color: white;
-       background: ${oc.pink[6]};
+        /* 위로 조금 움직이고 색바꿈 */
+        transform: translateY(-0.5rem);
+        color: white;
+        background: ${oc.pink[6]};
     }
 
     /* 클릭될때 */
     &:active {
-       /* 색 좀 더 어둡게 */
-       background: ${oc.pink[7]};
+        /* 색 좀 더 어둡게 */
+        background: ${oc.pink[7]};
     }
 `;
 
 const FloatingButton = ({onClick}) => (
     <Wrapper onClick={onClick}>
-        <AddIcon />
+        <AddIcon/>
     </Wrapper>
 );
 

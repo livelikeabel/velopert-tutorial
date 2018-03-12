@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import oc from 'open-color';
 import PropTypes from 'prop-types';
 import PersonIcon from 'react-icons/lib/md/person';
 
 const Wrapper = styled.div`
-  /* 레이아웃 */
-  width: 50%;
-  padding: 0.5rem;
+    /* 레이아웃 */
+    width: 50%;
+    padding: 0.5rem;
 `;
 
 const Box = styled.div`
@@ -48,7 +47,8 @@ const Phone = styled.div`
     margin-top: 0.25rem;
 `;
 
-const FavoriteItem = ({contact: {color, name, phone}}) => (
+
+const FavoriteItem = ({contact: { color, name, phone }}) => (
     <Wrapper>
         <Box color={color}>
             <ThumbnailContainer>

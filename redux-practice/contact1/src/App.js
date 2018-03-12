@@ -3,14 +3,15 @@ import Header from './components/Header';
 import Container from './components/Container';
 import ViewSelector from './components/ViewSelector';
 import FloatingButton from './components/FloatingButton';
-import oc from 'open-color';
 import ContactModal from './components/ContactModal';
 import Dimmed from './components/Dimmed';
-import shortid from 'shortid';
 import ContactList from './components/ContactList';
 import Input from './components/Input';
 import FavoriteList from './components/FavoriteList';
 
+import oc from 'open-color';
+
+import shortid from 'shortid';
 
 function generateRandomColor() {
     const colors = [
@@ -29,13 +30,14 @@ function generateRandomColor() {
         'orange'
     ];
 
-    // 0 부터 12 까지 랜덤 숫자
-    const random = Math.floor(Math.random()*13);
+    // 0 부터 12까지 랜덤 숫자
+    const random = Math.floor(Math.random() * 13);
 
     return oc[colors[random]][6];
 }
 
 class App extends Component {
+
     state = {
         view: 'favorite',
         modal: {
@@ -82,6 +84,26 @@ class App extends Component {
         search: ''
     }
 
+    componentDidMount() {
+        const contacts = localStorage.getItem('contacts');
+
+        // 로컬 스토리지에서 불러오기
+        if(contacts) {
+            this.setState({
+                contacts: JSON.parse(contacts)
+            });
+        }
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // 로컬 스토리지에 저장
+        if(prevState.contacts !== this.state.contacts) {
+            localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+        }
+    }
+
+    // view 선택 메소드 정의
     handleSelectView = (view) => this.setState({view})
 
     // 모달 관련 메소드들
@@ -107,7 +129,7 @@ class App extends Component {
             this.setState({
                 modal: {
                     ...this.state.modal,
-                    [name]: value // 인자로 전달받은 name의 값을 value로 설정
+                    [name]: value // 인자로 전달받은 name 의 값을 value 로 설정
                 }
             })
         },
@@ -133,7 +155,7 @@ class App extends Component {
                     contacts: [...contacts, contact]
                 });
 
-                // 모달 달기
+                // 모달 닫기
                 this.modalHandler.hide();
             },
             modify: () => {
@@ -145,7 +167,7 @@ class App extends Component {
 
                 const item = contacts[index];
 
-                // 상태변경
+                // 상태 변경
                 this.setState({
                     contacts: [
                         ...contacts.slice(0, index), // 0 ~ index 전까지의 객체를 넣음
@@ -158,7 +180,7 @@ class App extends Component {
                     ]
                 });
 
-                // 모달 달기
+                // 모달 닫기
                 this.modalHandler.hide();
             },
             remove: () => {
@@ -168,23 +190,23 @@ class App extends Component {
                     contacts
                 } = this.state;
 
-                // 상태변경
+                // 상태 변경
                 this.setState({
                     contacts: [
-                        ...contacts.slice(0, index), // 0~index 전까지의 객체를 넣음
+                        ...contacts.slice(0, index), // 0 ~ index 전까지의 객체를 넣음
                         ...contacts.slice(index + 1, contacts.length) // 그 뒤에 객체들을 넣음
                     ]
                 });
 
-                //모달 달기
+                // 모달 닫기
                 this.modalHandler.hide();
             }
         }
     }
 
-    //FloatingButton 클릭
+    // FloatingButton 클릭
     handleFloatingButtonClick = () => {
-        // 현재 view가 list가 아니면 list로 설정
+        // 현재 view 가 list 가 아니면 list 로 설정
         const { view } = this.state;
         if(view !== 'list')
             this.setState({view: 'list'});
@@ -203,9 +225,9 @@ class App extends Component {
     itemHandler = {
         toggleFavorite: (id) => {
             const { contacts } = this.state;
-            // id로 index 조회
+            // id 로 index 조회
             const index = contacts.findIndex(contact => contact.id === id);
-            const item = this.state.contacts[index];
+            const item = contacts[index];
 
             this.setState({
                 contacts: [
@@ -217,10 +239,11 @@ class App extends Component {
                     ...contacts.slice(index + 1, contacts.length)
                 ]
             });
+
         },
         openModify: (id) => {
             const { contacts } = this.state;
-            // id로 index조회
+            // id 로 index 조회
             const index = contacts.findIndex(contact => contact.id === id);
             const item = this.state.contacts[index];
 
@@ -234,7 +257,8 @@ class App extends Component {
         }
     }
 
-    //검색창 수정
+
+    // 검색창 수정
     handleSearchChange = (e) => {
         this.setState({
             search: e.target.value
@@ -260,19 +284,15 @@ class App extends Component {
 
         return (
             <div>
-                <Header />
+                <Header/>
                 <ViewSelector onSelect={handleSelectView} selected={view}/>
 
-                {/* view 값에 따라 다른 컨테이너를 보여준다. */}
+                {/* view 값에 따라 다른 컨테이너를 보여준다 */}
                 <Container visible={view==='favorite'}>
                     <FavoriteList contacts={contacts}/>
                 </Container>
                 <Container visible={view==='list'}>
-                    <Input
-                        onChange={handleSearchChange}
-                        value={search}
-                        placeholder="검색"
-                    />
+                    <Input onChange={handleSearchChange} value={search} placeholder="검색"/>
                     <ContactList
                         contacts={contacts}
                         onOpenModify={itemHandler.openModify}
@@ -288,11 +308,13 @@ class App extends Component {
                     onAction={modalHandler.action[modal.mode]}
                     onRemove={modalHandler.action.remove}
                 />
-                <Dimmed visible={modal.visible} />
-                <FloatingButton onClick={handleFloatingButtonClick} />
+                <Dimmed visible={modal.visible}/>
+                <FloatingButton onClick={handleFloatingButtonClick}/>
             </div>
         );
     }
 }
+
+
 
 export default App;

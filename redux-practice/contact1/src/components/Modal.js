@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
 import {media, transitions} from '../lib/style-utils';
-import PropTypes from 'prop-types';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+
+import PropTypes from 'prop-types';
 
 // 모달 위치 및 사이즈 설정
 const Wrapper = styled.div`
@@ -22,19 +23,18 @@ const Wrapper = styled.div`
 
     /* 모바일일땐 양옆 여백 1rem 에 꽉 채우기 */
     ${media.mobile`
-       width: calc(100% - 2rem);
+        width: calc(100% - 2rem);
     `}
 
-    /* 애니메이션 */
     .modal-enter {
         animation: ${transitions.slideDown} .5s ease-in-out;
         animation-fill-mode: forwards;
     }
 
     .modal-leave {
-       animation: ${transitions.slideUp} .5s ease-in-out;
-       animation-fill-mode: forwards;
-     }
+        animation: ${transitions.slideUp} .5s ease-in-out;
+        animation-fill-mode: forwards;
+    }
 `;
 
 Wrapper.propTypes = {
@@ -45,7 +45,7 @@ Wrapper.propTypes = {
 const ModalBox = styled.div`
     background: white;
     border: 1px solid rgba(0,0,0,0.3);
-`;
+`
 
 class Modal extends Component {
     static propTypes = {
@@ -62,11 +62,11 @@ class Modal extends Component {
     handleClickOutside = (e) => {
         const { visible, onHide } = this.props;
 
-        if(!visible) return null; // 이미 visible이 false라면 아무것도 안함
+        if(!visible) return null; // 이미 visible 이 false 라면 아무것도 안함
         onHide();
     }
 
-    // Esc 키가 클릭되면 onHide를 실행한다.
+    // Esc 키가 클릭되면 onHide 를 실행한다
     handleKeyUp = (e) => {
         const { onHide } = this.props
         if (e.keyCode === 27) {
@@ -89,6 +89,7 @@ class Modal extends Component {
         }
     }
 
+
     render() {
         // 레퍼런스 생성
         const {visible, children, width} = this.props;
@@ -99,10 +100,10 @@ class Modal extends Component {
                     <CSSTransitionGroup
                         transitionName="modal"
                         transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500} >
+                        transitionLeaveTimeout={500}>
                         {
-                          /* visible이 참일때만 ModalBox 보여줌 */
-                          visible && (<ModalBox>{children}</ModalBox>)
+                            /* visible 이 참일때만 ModalBox 보여줌 */
+                            visible && (<ModalBox>{children}</ModalBox>)
                         }
                     </CSSTransitionGroup>
                 </Wrapper>
