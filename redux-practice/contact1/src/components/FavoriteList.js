@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FavoriteItem from './FavoriteItem';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const Wrapper = styled.div`
     /* 레이아웃 */
@@ -31,7 +32,15 @@ const FavoriteList = ({contacts}) => {
 };
 
 FavoriteList.propTypes = {
-    contacts: PropTypes.arrayOf(PropTypes.object)
+    contacts: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+            id: PropTypes.string,
+            name: PropTypes.string,
+            phone: PropTypes.string,
+            color: PropTypes.string,
+            favorite: PropTypes.bool
+        })
+    )
 };
 
 export default FavoriteList;
