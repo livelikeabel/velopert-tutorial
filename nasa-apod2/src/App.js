@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import ViewerTemplate from './components/ViewerTemplate';
 
 class App extends Component {
   render() {
     return (
       <div>
-        app
+        <ViewerTemplate/>
       </div>
     );
   }
