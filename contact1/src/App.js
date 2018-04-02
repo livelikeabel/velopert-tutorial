@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Container from './components/Container';
 import ViewSelector from './components/ViewSelector';
+import FloatingButton from './components/FloatingButton';
 
 class App extends Component {
 
@@ -20,8 +21,11 @@ class App extends Component {
       <div>
           <Header/>
           <ViewSelector onSelect={handleSelectView} selected={view}/>
+
           <Container visible={view==='favorite'}>즐겨찾기</Container>
           <Container visible={view==='favorite'}>리스트</Container>
+
+          <FloatingButton/>
       </div>
     );
   }
