@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
 import {media, transitions} from '../lib/style-utils';
-import PropTypes from 'prop-types';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
+import PropTypes from 'prop-types';
 
 // 모달 위치 및 사이즈 설정
 const Wrapper = styled.div`
@@ -46,6 +46,7 @@ const ModalBox = styled.div`
     background: white;
     border: 1px solid rgba(0,0,0,0.3);
 `
+
 class Modal extends Component {
     static propTypes = {
         visible: PropTypes.bool,
@@ -57,20 +58,22 @@ class Modal extends Component {
         width: '400px'
     }
 
+    // 컴포넌트 외부를 클릭하면 실행되는 메소드 
     handleClickOutside = (e) => {
-        const {visible, onHide} = this.props;
+        const { visible, onHide } = this.props;
 
-        if(!visible) return null;
+        if(!visible) return null; // 이미 visible 이 false 라면 아무것도 안함
         onHide();
     }
 
+    // Esc 키가 클릭되면 onHide 를 실행한다
     handleKeyUp = (e) => {
         const { onHide } = this.props
-        if (e.keyCode == 27) {
+        if (e.keyCode === 27) {
             onHide();
         }
     }
-
+    
     componentDidUpdate(prevProps, prevState) {
         // visible 값이 변할 때:
         if(prevProps.visible !== this.props.visible) {
@@ -85,6 +88,7 @@ class Modal extends Component {
             }
         }
     }
+    
 
     render() {
         // 레퍼런스 생성
@@ -108,4 +112,5 @@ class Modal extends Component {
     }
 }
 
+// onClickoutside 라이브러리 적용
 export default onClickOutside(Modal);

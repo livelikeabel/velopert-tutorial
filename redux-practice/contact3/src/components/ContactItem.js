@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 import Thumbnail from './Thumbnail';
-
 import StarIcon from 'react-icons/lib/md/star';
 import EditIcon from 'react-icons/lib/md/edit';
 
@@ -59,25 +58,6 @@ const Wrapper = styled.div`
             right: 0rem;
         }
     }
-`
-
-const Info = styled.div`
-    /* 레이아웃 */
-    margin-left: 1rem;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    flex-direction: column; 
-`
-const Name = styled.div`
-    font-size: 1.25rem;
-    color: ${oc.gray[9]};
-    font-weight: 500;
-`;
-
-const Phone = styled.div`
-    color: ${oc.gray[6]};
-    margin-top: 0.25rem;
 `;
 
 const CircleButton = styled.div`
@@ -105,13 +85,45 @@ const CircleButton = styled.div`
     }
 
     /* 즐겨찾기 - 노란색 */
-    ${ props => props.favorite && css`
+    &.favorite {
+        /* active props 를 전달받으면 노란색으로 */
+        ${props => props.active ? `
+            border: 1px solid ${oc.yellow[6]};
+            color: ${oc.yellow[6]};
+        `: ''}
+        
         &:active {
             border: 1px solid ${oc.yellow[6]};
             color: ${oc.yellow[6]};
         }
-    `}
+    }
 `;
+
+CircleButton.propTypes = {
+    active: PropTypes.bool
+};
+
+const Info = styled.div`
+    /* 레이아웃 */
+    margin-left: 1rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column; 
+`;
+
+const Name = styled.div`
+    font-size: 1.25rem;
+    color: ${oc.gray[9]};
+    font-weight: 500;
+`;
+
+const Phone = styled.div`
+    color: ${oc.gray[6]}
+    margin-top: 0.25rem;
+`;
+
+
 
 class ContactItem extends Component {
 
@@ -128,9 +140,11 @@ class ContactItem extends Component {
     }
 
     render() {
-
+        // 레퍼런스 준비
         const {
-            contact: { name, phone, favorite, id, color }
+            contact: { name, phone, favorite, id, color },
+            onOpenModify,
+            onToggleFavorite
         } = this.props;
 
         return (
@@ -140,10 +154,16 @@ class ContactItem extends Component {
                     <Name>{name}</Name>
                     <Phone>{phone}</Phone>
                 </Info>
-                <CircleButton/>
-                <CircleButton/>
+                <div className="actions">
+                    <CircleButton className="favorite" active={favorite} onClick={() => onToggleFavorite(id)}>
+                        <StarIcon/>
+                    </CircleButton>
+                    <CircleButton onClick={() => onOpenModify(id)}>
+                        <EditIcon/>
+                    </CircleButton>
+                </div>
             </Wrapper>
-        )
+        );
     }
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import oc from 'open-color';
 import Person from 'react-icons/lib/md/person';
 import PropTypes from 'prop-types';
 
