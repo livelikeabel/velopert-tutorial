@@ -5,6 +5,8 @@ import ViewSelector from './components/ViewSelector';
 import FloatingButton from './components/FloatingButton';
 import ContactModal from './components/ContactModal';
 import Dimmed from './components/Dimmed';
+import ContactList from './components/ContactList';
+
 import shortid from 'shortid';
 import oc from 'open-color';
 
@@ -33,12 +35,48 @@ function generateRandomColor() {
 class App extends Component {
 
   state = {
-    view: 'favorite',
+    view: 'list',
     modal: {
       visible: false,
       mode: null // create 혹은 modify
     },
-    contacts: []
+    contacts: [
+      {
+        "id": "SyKw5cyAl",
+        "name": "김민준",
+        "phone": "010-0000-0000",
+        "color": "#40c057",
+        "favorite": true
+      },
+      {
+        "id": "r1s_9c10l",
+        "name": "아벳",
+        "phone": "010-0000-0001",
+        "color": "#12b886",
+        "favorite": true
+      },
+      {
+        "id": "BJcFqc10l",
+        "name": "베티",
+        "phone": "010-0000-0002",
+        "color": "#fd7e14",
+        "favorite": false
+      },
+      {
+        "id": "BJUcqqk0l",
+        "name": "찰리",
+        "phone": "010-0000-0003",
+        "color": "#15aabf",
+        "favorite": false
+      },
+      {
+        "id": "rJHoq91Cl",
+        "name": "데이비드",
+        "phone": "010-0000-0004",
+        "color": "#e64980",
+        "favorite": false
+      }
+    ]
   }
 
   handleSelectView = (view) => this.setState({ view })
@@ -124,7 +162,8 @@ class App extends Component {
 
     const {
       view,
-      modal
+      modal,
+      contacts
     } = this.state;
 
     return (
@@ -133,7 +172,9 @@ class App extends Component {
         <ViewSelector onSelect={handleSelectView} selected={view} />
 
         <Container visible={view === 'favorite'}>즐겨찾기</Container>
-        <Container visible={view === 'favorite'}>리스트</Container>
+        <Container visible={view === 'list'}>
+            <ContactList contacts={contacts}/>
+        </Container>
 
         <ContactModal
           {...modal}
