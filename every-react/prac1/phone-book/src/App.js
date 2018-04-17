@@ -35,6 +35,15 @@ class App extends Component {
     });
   };
 
+  handleUpdate = (id, data) => {
+    const { information } = this.state;
+    this.setState({
+      information: information.map(
+        info => (info.id === id ? { ...info, ...data } : info)
+      )
+    });
+  };
+
   render() {
     const { information } = this.state;
 
@@ -46,8 +55,9 @@ class App extends Component {
         </header>
         <PhoneForm onCreate={this.handleCreate} />
         <PhoneInfoList
-          data={this.state.information}
+          data={information}
           onRemove={this.handleRemove}
+          onUpdate={this.handleUpdate}
         />
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
