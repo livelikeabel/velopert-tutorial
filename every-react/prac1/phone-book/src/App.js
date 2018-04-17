@@ -20,12 +20,21 @@ class App extends Component {
       }
     ]
   };
+
   handleCreate = data => {
     const { information } = this.state;
     this.setState({
       information: information.concat({ id: this.id++, ...data })
     });
   };
+
+  handleRemove = id => {
+    const { information } = this.state;
+    this.setState({
+      information: information.filter(info => info.id !== id)
+    });
+  };
+
   render() {
     const { information } = this.state;
 
@@ -36,7 +45,10 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <PhoneForm onCreate={this.handleCreate} />
-        <PhoneInfoList data={this.state.information} />
+        <PhoneInfoList
+          data={this.state.information}
+          onRemove={this.handleRemove}
+        />
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
